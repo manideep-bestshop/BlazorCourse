@@ -1,0 +1,53 @@
+﻿@page "/quiz"
+
+<h1>Quiz</h1>
+
+@if (currentQuestionIndex < quizQuestions.Length)
+{
+    <h2>@quizQuestions[currentQuestionIndex].Question</h2>
+    <ul>
+        @foreach (var option in quizQuestions[currentQuestionIndex].Options)
+        {
+            <li>
+                <button class="btn btn-primary" @onclick="() => SelectOption(option)">@option</button>
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <h2>Quiz completed!</h2>
+    <p>You scored @score out of @quizQuestions.Length</p>
+}
+
+@code {
+    private int currentQuestionIndex = 0;
+    private int score = 0;
+
+    private QuizQuestion[] quizQuestions = new QuizQuestion[]
+    {
+        new QuizQuestion
+        {
+            Question = "What is the capital of France?",
+            Options = new string[] { "Paris", "Berlin", "London", "Rome" },
+            CorrectOptionIndex = 0
+        },
+        new QuizQuestion
+        {
+            Question = "What is the largest planet in our solar system?",
+            Options = new string[] { "Jupiter", "Mars", "Earth", "Saturn" },
+            CorrectOptionIndex = 0
+        }
+    // Add more quiz questions here
+    };
+
+    private void SelectOption(string selectedOption)
+    {
+        if (selectedOption == quizQuestions[currentQuestionIndex].Options[quizQuestions[currentQuestionIndex].CorrectOptionIndex])
+        {
+            score++;
+        }
+
+        currentQuestionIndex++;
+    }
+}
