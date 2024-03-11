@@ -1,0 +1,30 @@
+﻿@page "/items"
+@inject ItemServices itemServices
+
+
+<h3>Items</h3>
+
+
+@if (items == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <ul>
+        @foreach (var i in items)
+        {
+            <li>@i.Title (@(i.IsCompleted ? "Completed" : "Pending"))</li>
+        }
+    </ul>
+}
+
+
+@code {
+    private List<Item> items;
+
+    protected override async Task OnInitializedAsync()
+    {
+        items = await itemServices.GetItemsAsync();
+    }
+}
